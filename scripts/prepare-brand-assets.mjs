@@ -27,7 +27,7 @@ async function main() {
   for (const width of [96, 192, 384, 640]) {
     await sharp(source)
       .resize({ width })
-      .webp({ quality: 86, alphaQuality: 90 })
+      .webp({ quality: 78, alphaQuality: 85, effort: 6 })
       .toFile(path.join(root, `public/branding/logo-ib-miresan-${width}.webp`));
   }
 

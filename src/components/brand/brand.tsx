@@ -4,7 +4,7 @@ import { type Pillar } from "@/domain/types";
 
 /** Logo officiel (variantes webp générées par `npm run assets`). */
 export function Logo({ size = 44, className, priority = false }: { size?: number; className?: string; priority?: boolean }) {
-  const src = size <= 48 ? "/branding/logo-ib-miresan-96.webp" : size <= 96 ? "/branding/logo-ib-miresan-192.webp" : size <= 192 ? "/branding/logo-ib-miresan-384.webp" : "/branding/logo-ib-miresan-640.webp";
+  const src = size <= 48 ? "/branding/logo-ib-miresan-96.webp" : size <= 96 ? "/branding/logo-ib-miresan-192.webp" : size <= 240 ? "/branding/logo-ib-miresan-384.webp" : "/branding/logo-ib-miresan-640.webp";
   return (
     <Image
       src={src}

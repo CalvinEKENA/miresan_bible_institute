@@ -1,18 +1,20 @@
 import type { Metadata, Viewport } from "next";
 import { Hanken_Grotesk, Newsreader } from "next/font/google";
+import { RegisterServiceWorker } from "@/components/pwa/register-sw";
 import { SITE_URL } from "@/lib/env";
 import "./globals.css";
 
+// Sous-ensemble « latin » uniquement : il couvre le français (é, è, ç, œ, « », ’).
+// L'axe optique (opsz) est volontairement omis : il double le poids des fichiers.
 const newsreader = Newsreader({
-  subsets: ["latin", "latin-ext"],
+  subsets: ["latin"],
   style: ["normal", "italic"],
-  axes: ["opsz"],
   variable: "--font-newsreader",
   display: "swap",
 });
 
 const hanken = Hanken_Grotesk({
-  subsets: ["latin", "latin-ext"],
+  subsets: ["latin"],
   variable: "--font-hanken",
   display: "swap",
 });
@@ -57,6 +59,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           Aller au contenu
         </a>
         {children}
+        <RegisterServiceWorker />
       </body>
     </html>
   );
