@@ -24,13 +24,7 @@ import { DEMO_LESSONS, DEMO_OUTLINE_LESSONS, DEMO_QUIZ, DEMO_QUIZ_KEY } from "./
  * Les dates sont calculées relativement à « maintenant » pour que la démo reste vivante.
  */
 
-export const DEMO_PASSWORD = "demo";
-
-export const DEMO_ACCOUNTS = [
-  { username: "etudiant.demo", uid: "demo-student", label: "Étudiante · 1re année" },
-  { username: "enseignant.demo", uid: "demo-teacher", label: "Enseignant" },
-  { username: "direction.demo", uid: "demo-admin", label: "Direction (super admin)" },
-] as const;
+export { DEMO_ACCOUNTS, DEMO_PASSWORD } from "./accounts";
 
 const FIRST = ["Esther", "Paul", "Grâce", "Josué", "Ruth", "Emmanuel", "Débora", "Samuel", "Lydie", "Caleb", "Priscille", "Timothée", "Anne", "Élie", "Marthe", "Daniel", "Naomie", "Étienne", "Sara", "Joël", "Rebecca", "Nathan", "Abigaïl", "Silas"];
 const LAST = ["Mbarga", "Ndongo", "Essomba", "Atangana", "Fouda", "Tchoumi", "Ndzana", "Mballa", "Owona", "Nkoulou", "Mvondo", "Ekambi", "Manga", "Abena", "Onana", "Kamga", "Nana", "Tsala", "Ebogo", "Menye", "Zambo", "Ayissi", "Nguele", "Ekani"];
@@ -126,9 +120,9 @@ export function buildDemoSeed(now: Date = new Date()): Tables {
   }));
 
   /* ── Progression de l'étudiante démo ─────────────────────────────── */
-  const progressRows: [lessonId: string, courseId: string, percent: number, daysAgo: number][] = [
+  const progressRows: [lessonId: string, courseId: string, percent: number, daysAgo: number, lastBlockId?: string][] = [
     ["a1-01-l1", "a1-01", 100, 9],
-    ["a1-01-l2", "a1-01", 46, 1],
+    ["a1-01-l2", "a1-01", 46, 1, "b7"],
     ["a1-02-l1", "a1-02", 100, 12],
     ["a1-02-l2", "a1-02", 100, 6],
     ["a1-02-l3", "a1-02", 30, 3],
@@ -138,13 +132,14 @@ export function buildDemoSeed(now: Date = new Date()): Tables {
     ["a1-05-l1", "a1-05", 100, 10],
     ["a1-06-l1", "a1-06", 20, 2],
   ];
-  const progress: LessonProgress[] = progressRows.map(([lessonId, courseId, percent, daysAgo]) => ({
+  const progress: LessonProgress[] = progressRows.map(([lessonId, courseId, percent, daysAgo, lastBlockId]) => ({
     id: `${me.uid}_${lessonId}`,
     uid: me.uid,
     courseId,
     lessonId,
     percent,
     completed: percent >= 100,
+    ...(lastBlockId ? { lastBlockId } : {}),
     updatedAt: iso(addDays(now, -daysAgo)),
   }));
 

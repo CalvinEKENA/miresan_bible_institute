@@ -1,4 +1,4 @@
-import { DEMO_PASSWORD } from "@/data/demo/seed";
+import { DEMO_PASSWORD } from "@/data/demo/accounts";
 import { getStore } from "@/data/store";
 import { normalizeUsername } from "@/domain/identity";
 import { type AuthAdapter, type AuthState, type SessionUser, SignInError } from "./types";

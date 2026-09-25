@@ -34,7 +34,6 @@ export function useData<T>(key: string | null, fetcher: (store: DataStore) => Pr
 
   useEffect(() => {
     // Chargement asynchrone : l'état est mis à jour après résolution, pas pendant le rendu.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     void load();
   }, [load]);
 
