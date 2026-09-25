@@ -37,7 +37,7 @@ En mode preview :
 7. **Application Web Firebase** : laisser créer/associer l’application proposée.
 8. **Terminer et déployer.** Le premier déploiement prend environ 5 à 10 minutes.
 
-URL attendue : **https://miresan-preview--miresan-bible-institute.europe-west4.hosted.app**. Elle figure dans `apphosting.yaml` (`NEXT_PUBLIC_SITE_URL`). Si la console affiche une autre URL, corriger cette valeur puis pousser.
+✅ **Preview en ligne depuis le 25/09/2026** : **https://miresan-preview--miresan-bible-institute.europe-west4.hosted.app**. Backend `miresan-preview` (europe-west4), relié à l’application Web Firebase existante, validé par le client interne. Elle figure dans `apphosting.yaml` (`NEXT_PUBLIC_SITE_URL`). Si la console affiche une autre URL, corriger cette valeur puis pousser.
 
 Chaque `git push` sur la branche redéploie automatiquement la preview.
 

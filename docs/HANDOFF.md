@@ -19,6 +19,8 @@ Branche : `claude/stoic-feynman-02ipvu`. Les étapes 1 à 7, 9 (tableau de bord 
 - Mot de passe démo : `demo2026`. Firebase Auth exige au moins 6 caractères.
 - Polices : sous-ensemble `latin` seul, sans axe `opsz`, pour la performance.
 
+**Preview client en ligne** : https://miresan-preview--miresan-bible-institute.europe-west4.hosted.app. Backend App Hosting `miresan-preview`, branche `claude/stoic-feynman-02ipvu`, déploiement automatique à chaque push, mode démo et `noindex` (voir `docs/DEPLOYMENT.md`).
+
 **Reste à faire, par priorité**
 1. Éditeur de leçons en blocs (enseignant et admin) et gestion des quiz.
 2. Admin : notes (saisie, publication), présences, paiements (reçus), annonces (CRUD), calendrier (génération des séances).
