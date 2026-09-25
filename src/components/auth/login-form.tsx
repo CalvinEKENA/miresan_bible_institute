@@ -18,7 +18,7 @@ function safeNext(value: string | null): string | null {
 const field =
   "peer w-full border-0 border-b border-ink-900/20 bg-transparent px-0 pt-6 pb-2 text-[1.0625rem] text-ink-900 outline-none transition-colors placeholder:text-transparent focus:border-forest-700 focus:ring-0";
 const floating =
-  "pointer-events-none absolute top-6 left-0 origin-left text-[0.9375rem] text-stone-500 transition-all duration-(--duration-quick) peer-focus:top-0 peer-focus:text-[0.6875rem] peer-focus:font-semibold peer-focus:tracking-[0.14em] peer-focus:text-gold-700 peer-focus:uppercase peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-[0.6875rem] peer-[:not(:placeholder-shown)]:font-semibold peer-[:not(:placeholder-shown)]:tracking-[0.14em] peer-[:not(:placeholder-shown)]:uppercase";
+  "pointer-events-none absolute top-6 left-0 origin-left text-[0.9375rem] text-stone-500 transition-all duration-(--duration-quick) peer-focus:top-0 peer-focus:text-[0.6875rem] peer-focus:font-semibold peer-focus:tracking-[0.14em] peer-focus:text-gold-800 peer-focus:uppercase peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-[0.6875rem] peer-[:not(:placeholder-shown)]:font-semibold peer-[:not(:placeholder-shown)]:tracking-[0.14em] peer-[:not(:placeholder-shown)]:uppercase";
 
 export function LoginForm({ demo, phones, email }: { demo: boolean; phones: string[]; email: string }) {
   const { state, signIn, signOut } = useAuth();
@@ -141,7 +141,7 @@ export function LoginForm({ demo, phones, email }: { demo: boolean; phones: stri
           <button
             type="button"
             onClick={() => setShowPassword((s) => !s)}
-            className="absolute right-0 bottom-2 text-xs font-semibold tracking-[0.08em] text-stone-500 uppercase hover:text-ink-900"
+            className="absolute right-0 bottom-1 h-8 min-w-12 px-1 text-xs font-semibold tracking-[0.08em] text-stone-500 uppercase hover:text-ink-900"
             aria-pressed={showPassword}
             aria-controls={`${id}-password`}
           >
@@ -177,7 +177,7 @@ export function LoginForm({ demo, phones, email }: { demo: boolean; phones: stri
 
       {demo && (
         <section aria-labelledby={`${id}-demo`} className="mt-8 border-t border-dashed border-gold-600/40 pt-6">
-          <p id={`${id}-demo`} className="eyebrow text-gold-700">
+          <p id={`${id}-demo`} className="eyebrow text-gold-800">
             Mode démonstration
           </p>
           <p className="mt-2 text-[0.8125rem] leading-relaxed text-stone-500">

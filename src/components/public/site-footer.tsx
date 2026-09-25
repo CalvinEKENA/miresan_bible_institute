@@ -71,7 +71,7 @@ export function SiteFooter({ settings }: { settings: InstitutionSettings }) {
           </address>
         </div>
 
-        <div className="mt-16 flex flex-col gap-3 border-t border-ivory-50/10 pt-6 text-xs text-ivory-50/45 sm:flex-row sm:justify-between">
+        <div className="mt-16 flex flex-col gap-3 border-t border-ivory-50/10 pt-6 text-xs text-ivory-50/65 sm:flex-row sm:justify-between">
           <p>© {new Date().getFullYear()} {settings.name}. Tous droits réservés.</p>
           <p>« Équipez le peuple de Dieu pour l’œuvre du ministère » — d’après Éphésiens 4:12</p>
         </div>

@@ -1,18 +1,26 @@
-import Image from "next/image";
 import { cn } from "@/lib/cn";
 import { type Pillar } from "@/domain/types";
 
-/** Logo officiel (variantes webp générées par `npm run assets`). */
-export function Logo({ size = 44, className, priority = false }: { size?: number; className?: string; priority?: boolean }) {
-  const src = size <= 48 ? "/branding/logo-ib-miresan-96.webp" : size <= 96 ? "/branding/logo-ib-miresan-192.webp" : size <= 240 ? "/branding/logo-ib-miresan-384.webp" : "/branding/logo-ib-miresan-640.webp";
+const LOGO_WIDTHS = [96, 192, 384, 640] as const;
+
+/**
+ * Logo officiel (variantes webp générées par `npm run assets`), servi en srcset :
+ * le navigateur choisit la plus petite variante suffisante pour l'écran.
+ */
+export function Logo({ size = 44, className, priority = false, sizes, alt = "Logo de l’Institut Biblique de la MIRESAN" }: { size?: number; className?: string; priority?: boolean; sizes?: string; alt?: string }) {
+  const fallback = LOGO_WIDTHS.find((w) => w >= size * 2) ?? 640;
   return (
-    <Image
-      src={src}
-      alt="Logo de l’Institut Biblique de la MIRESAN"
+    // eslint-disable-next-line @next/next/no-img-element -- variantes pré-optimisées, srcset natif sans optimiseur d'images
+    <img
+      src={`/branding/logo-ib-miresan-${fallback}.webp`}
+      srcSet={LOGO_WIDTHS.map((w) => `/branding/logo-ib-miresan-${w}.webp ${w}w`).join(", ")}
+      sizes={sizes ?? `${size}px`}
+      alt={alt}
       width={size}
       height={Math.round((size * 512) / 550)}
-      priority={priority}
-      unoptimized
+      loading={priority ? "eager" : "lazy"}
+      fetchPriority={priority ? "high" : "auto"}
+      decoding="async"
       className={cn("select-none", className)}
       draggable={false}
     />

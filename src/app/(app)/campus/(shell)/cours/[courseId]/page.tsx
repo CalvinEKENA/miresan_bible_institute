@@ -42,10 +42,10 @@ export default function CoursePage() {
 
       {/* Frontispice */}
       <header className={cn("relative isolate overflow-hidden rounded-md p-6 shadow-paper sm:p-10", dark ? "bg-forest-800 text-ivory-50" : course.pillar === "develop" ? "bg-sage-200 text-ink-900" : "bg-ivory-200 text-ink-900")}>
-        <span aria-hidden className={cn("absolute inset-3 -z-10 rounded-sm border", dark ? "border-gold-500/25" : "border-gold-700/20")} />
+        <span aria-hidden className={cn("absolute inset-3 -z-10 rounded-sm border", dark ? "border-gold-500/25" : "border-gold-800/20")} />
         <div className="grid grid-cols-1 gap-8 md:grid-cols-[1fr_auto] md:items-end">
           <div>
-            <p className={cn("flex items-center gap-2 text-xs font-semibold tracking-[0.14em] uppercase", dark ? "text-gold-300" : "text-gold-700")}>
+            <p className={cn("flex items-center gap-2 text-xs font-semibold tracking-[0.14em] uppercase", dark ? "text-gold-300" : "text-gold-800")}>
               <PillarGlyph pillar={course.pillar} className="size-4" /> {course.code} · {PILLAR_LABELS[course.pillar].label} · Trimestre {course.term}
             </p>
             <h1 className="font-display mt-4 text-[clamp(2.2rem,1.5rem+3vw,3.8rem)] leading-[1.02]">{course.title}</h1>

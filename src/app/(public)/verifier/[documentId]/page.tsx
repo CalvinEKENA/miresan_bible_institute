@@ -42,7 +42,7 @@ export default async function VerifyPage({ params }: PageProps<"/verifier/[docum
     <section className="grid min-h-dvh place-items-center bg-forest-900 px-4 pt-[var(--header-height)] pb-16 text-ink-900">
       <div className="w-full max-w-lg rounded-md bg-ivory-50 p-8 text-center shadow-overlay sm:p-10">
         <Logo size={96} className="mx-auto size-20 object-contain" />
-        <p className="eyebrow mt-5 text-gold-700">Vérification de document</p>
+        <p className="eyebrow mt-5 text-gold-800">Vérification de document</p>
         {doc ? (
           <>
             <p className={`font-display mt-4 text-4xl ${valid ? "text-forest-700" : "text-danger-600"}`}>{valid ? "Document authentique" : "Document révoqué"}</p>

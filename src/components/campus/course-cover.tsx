@@ -24,10 +24,10 @@ export function CourseCover({ course, percent, lessons, className }: { course: C
     >
       {/* Mors de la reliure */}
       <span aria-hidden className={cn("absolute inset-y-0 left-2.5 w-px", dark ? "bg-ivory-50/15" : "bg-ink-900/10")} />
-      <span aria-hidden className={cn("absolute inset-2 rounded-r-sm border", dark ? "border-gold-500/25" : "border-gold-700/20")} />
+      <span aria-hidden className={cn("absolute inset-2 rounded-r-sm border", dark ? "border-gold-500/25" : "border-gold-800/20")} />
       <div className="relative flex items-center justify-between">
-        <span className={cn("numeric text-[0.6875rem] font-semibold tracking-[0.1em]", dark ? "text-gold-300" : "text-gold-700")}>{course.code}</span>
-        <PillarGlyph pillar={course.pillar} className={cn("size-4", dark ? "text-gold-300/80" : "text-gold-700/80")} />
+        <span className={cn("numeric text-[0.6875rem] font-semibold tracking-[0.1em]", dark ? "text-gold-300" : "text-gold-800")}>{course.code}</span>
+        <PillarGlyph pillar={course.pillar} className={cn("size-4", dark ? "text-gold-300/80" : "text-gold-800/80")} />
       </div>
       <h3 className="font-display relative mt-auto text-[1.2rem] leading-[1.12] sm:text-[1.35rem]">{course.title}</h3>
       <p className={cn("relative mt-2 text-[0.6875rem] font-medium tracking-[0.06em] uppercase", dark ? "text-ivory-50/60" : "text-stone-500")}>

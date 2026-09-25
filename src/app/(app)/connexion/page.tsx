@@ -41,7 +41,7 @@ export default async function LoginPage() {
             <div className="relative px-6 pt-10 pb-8 sm:px-10 sm:pt-12">
               <div className="flex flex-col items-center text-center">
                 <Logo size={96} priority className="size-[5.5rem] object-contain" />
-                <p className="eyebrow mt-5 text-gold-700">Institut Biblique de la MIRESAN</p>
+                <p className="eyebrow mt-5 text-gold-800">Institut Biblique de la MIRESAN</p>
                 <h1 className="font-display mt-3 text-[2.35rem] leading-[1.02]">
                   Entrer dans <em className="text-forest-700">l’Institut</em>
                 </h1>

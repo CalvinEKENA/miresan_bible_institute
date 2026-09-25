@@ -66,8 +66,8 @@ export function SiteHeader({ phones, email }: { phones: string[]; email: string 
         )}
       >
         <div className="container-wide flex h-(--header-height) items-center justify-between gap-6">
-          <Link href="/" className="flex items-center gap-3" aria-label="Institut Biblique de la MIRESAN — accueil">
-            <Logo size={40} priority className="size-10 object-contain" />
+          <Link href="/" className="flex items-center gap-3">
+            <Logo size={40} priority alt="" className="size-10 object-contain" />
             <Wordmark light={!solid} />
           </Link>
 

@@ -19,7 +19,7 @@ const PANELS: {
     verse: { ref: "Psaume 119:105", text: "Ta parole est une lampe à mes pieds, et une lumière sur mon sentier." },
     tone: "bg-ivory-100 text-ink-900",
     muted: "text-stone-500",
-    accent: "text-gold-700",
+    accent: "text-gold-800",
   },
   {
     pillar: "develop",
@@ -27,7 +27,7 @@ const PANELS: {
     text: "Approfondir la doctrine, former le caractère, acquérir les langues et les outils du serviteur. La connaissance devient maturité.",
     verse: { ref: "2 Pierre 3:18", text: "Croissez dans la grâce et dans la connaissance de notre Seigneur et Sauveur Jésus-Christ." },
     tone: "bg-sage-200 text-ink-900",
-    muted: "text-forest-800/70",
+    muted: "text-forest-800/85",
     accent: "text-forest-700",
   },
   {
@@ -93,12 +93,12 @@ export function Triptych() {
                 </div>
               </div>
             </div>
+            {/* Chiffre romain décoratif en pseudo-élément : ignoré par les technologies d'assistance. */}
             <span
               aria-hidden
-              className={cn("font-display pointer-events-none absolute right-[-0.05em] bottom-[-0.22em] text-[clamp(10rem,30vw,26rem)] leading-none opacity-[0.06] select-none")}
-            >
-              {numeral}
-            </span>
+              data-numeral={numeral}
+              className="font-display pointer-events-none absolute right-[-0.05em] bottom-[-0.22em] text-[clamp(10rem,30vw,26rem)] leading-none opacity-[0.06] select-none before:content-[attr(data-numeral)]"
+            />
           </article>
         );
       })}

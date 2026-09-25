@@ -157,16 +157,15 @@
   --animate-ticker: ticker 48s linear infinite;
   --animate-shimmer: shimmer 1.6s var(--ease-soft) infinite;
 
+  /* Pas d'opacité nulle au départ : l'élément reste candidat LCP dès le premier rendu. */
   @keyframes rise {
     from {
-      opacity: 0;
-      transform: translate3d(0, 0.6em, 0);
-      clip-path: inset(0 -30% 100% -30%);
+      opacity: 0.12;
+      transform: translate3d(0, 0.5em, 0);
     }
     to {
       opacity: 1;
       transform: none;
-      clip-path: inset(-30% -30% -30% -30%);
     }
   }
   @keyframes fade {
@@ -226,8 +225,8 @@
   --text-muted: var(--color-stone-500);
   --line: rgb(10 27 20 / 0.1);
   --line-strong: rgb(10 27 20 / 0.2);
-  --accent: var(--color-gold-700);
-  --accent-strong: var(--color-gold-800);
+  --accent: var(--color-gold-800);
+  --accent-strong: #5f4a1b;
   --brand: var(--color-forest-800);
   --brand-contrast: var(--color-ivory-50);
   --highlight: rgb(226 202 143 / 0.55);

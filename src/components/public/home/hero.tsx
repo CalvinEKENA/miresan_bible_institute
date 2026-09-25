@@ -54,7 +54,7 @@ export function Hero({ settings }: { settings: InstitutionSettings }) {
           <div className="absolute top-1 right-0 animate-fade [animation-delay:400ms] lg:top-[-0.5rem] lg:right-[4%]">
             <div className="relative grid place-items-center">
               <span aria-hidden className="absolute size-[160%] rounded-full bg-[radial-gradient(circle,rgb(226_202_143/0.32),transparent_65%)]" />
-              <Logo size={220} priority className="relative size-[5.5rem] object-contain drop-shadow-[0_20px_40px_rgb(0_0_0/0.35)] sm:size-32 lg:size-[12.5rem]" />
+              <Logo size={200} priority sizes="(min-width: 1024px) 200px, (min-width: 640px) 128px, 88px" className="relative size-[5.5rem] object-contain drop-shadow-[0_20px_40px_rgb(0_0_0/0.35)] sm:size-32 lg:size-[12.5rem]" />
             </div>
           </div>
 
