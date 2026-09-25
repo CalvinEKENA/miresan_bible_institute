@@ -93,7 +93,7 @@ function Sidebar({ config, pathname, onNavigate }: { config: ShellConfig; pathna
 
       <div className="relative border-t border-ivory-50/10 p-4">
         <div className="flex items-center gap-3">
-          <Monogram initials={initials(user.profile.displayName)} size={38} className="bg-forest-800 text-[0.8rem] text-gold-300" />
+          <Monogram initials={initials(`${user.profile.firstName} ${user.profile.lastName}`)} size={38} className="bg-forest-800 text-[0.8rem] text-gold-300" />
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm font-semibold">{user.profile.displayName}</p>
             <p className="truncate text-xs text-ivory-50/50">{ROLE_LABELS[user.role]}</p>
@@ -183,10 +183,9 @@ export function AppShell({ config, children }: { config: ShellConfig; children: 
             <div className="ml-auto flex items-center gap-1">
               <button type="button" className="relative grid size-10 place-items-center rounded-sm text-text-soft hover:bg-paper-sunken" aria-label="Notifications">
                 <Icon name="bell" className="size-[1.2rem]" />
-                <span aria-hidden className="absolute top-2.5 right-2.5 size-1.5 rounded-full bg-gold-600 ring-2 ring-paper" />
               </button>
               <Link href={config.groups.flatMap((g) => g.items).find((i) => i.icon === "person")?.href ?? config.home} className="ml-1 rounded-full" aria-label="Mon profil">
-                <Monogram initials={initials(user.profile.displayName)} size={34} className="bg-paper-raised text-[0.75rem]" />
+                <Monogram initials={initials(`${user.profile.firstName} ${user.profile.lastName}`)} size={34} className="bg-paper-raised text-[0.75rem]" />
               </Link>
             </div>
           </div>

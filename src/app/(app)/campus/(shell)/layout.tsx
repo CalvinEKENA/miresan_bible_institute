@@ -19,7 +19,7 @@ const CAMPUS: ShellConfig = {
       label: "Ressources",
       items: [
         { href: "/campus/bibliotheque", label: "Bibliothèque", icon: "library" },
-        { href: "/campus/messages", label: "Messages", icon: "envelope", badge: "1" },
+        { href: "/campus/messages", label: "Messages", icon: "envelope" },
         { href: "/campus/profil", label: "Profil", icon: "person" },
       ],
     },
