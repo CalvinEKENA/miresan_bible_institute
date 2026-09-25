@@ -25,7 +25,9 @@ Branche : `claude/stoic-feynman-02ipvu`. Les étapes 1 à 7, 9 (tableau de bord 
 3. Messagerie temps réel, formulaire de candidature public (Cloud Function avec App Check).
 4. Mise en service Firebase réelle (voir `docs/FIREBASE.md`), puis bootstrap du compte `pasteurarmel` avec un mot de passe fourni par variable d'environnement.
 5. Performance : polices auto-hébergées et sous-ensemblées, allègement du JS de `/connexion`.
-6. Confirmer les trois points institutionnels : horaire du jeudi, e-mail officiel, répartition des cours par trimestre.
+6. Faire fixer la répartition des cours par trimestre par la Direction des études.
+
+**Décisions de la Direction (25/09/2026)** : jeudi **16h00–20h00** (flyer) ; e-mail officiel **ibmiresan@gmail.com**. Elles sont appliquées dans `src/data/institution.ts`.
 
 ---
 
@@ -55,7 +57,7 @@ Branche : `claude/stoic-feynman-02ipvu`. Les étapes 1 à 7, 9 (tableau de bord 
 - **Mission (art. 8)** : former, équiper et accompagner les hommes et les femmes appelés au ministère…
 - **Valeurs (art. 9)** : fidélité aux Écritures, excellence, intégrité et sainteté, service et humilité, discipline et ponctualité, respect de la diversité des appels.
 - **Cursus** : 2 ans, 3 trimestres par an, diplôme de Théologie. L'Institut peut créer d'autres cycles, donc **l'architecture ne doit pas être figée à 36 cours**. La répartition des cours par trimestre n'est pas officielle (elle est fixée par la Direction des études). Hypothèse de seed provisoire : cours 1 à 6 au T1, 7 à 12 au T2, 13 à 18 au T3, marquée « provisoire ».
-- **Horaires : conflit à signaler.** Les statuts et le règlement indiquent **jeudi 15h00–20h30** et samedi 08h00–14h30. Le flyer indique **jeudi 16h00–20h00**. Tout doit rester administrable et le conflit doit être affiché à l'administrateur.
+- **Horaires : conflit à signaler.** Les statuts et le règlement indiquent **jeudi 15h00–20h30** et samedi 08h00–14h30. Le flyer indique **jeudi 16h00–20h00**. Tout doit rester administrable. **Tranché le 25/09/2026 : 16h00–20h00.**
 - **Rentrée** : samedi **7 novembre 2026** (flyer). L'année va généralement d'octobre à juillet.
 - **Admission** : être né de nouveau et membre actif d'une Église locale. Pièces : 4 photos 4x4, 1 chemise cartonnée, formulaires, lettre de recommandation du pasteur, témoignage de conversion et d'appel, 1 rame de papier A4, frais d'inscription. L'admission passe par un entretien préalable.
 - **Frais** (à stocker en paramètres) : inscription 15 000 FCFA ; pension 120 000 FCFA (en une fois ou en 3 tranches) ; badge 1 000 ; carte étudiant 1 000.
@@ -65,7 +67,7 @@ Branche : `claude/stoic-feynman-02ipvu`. Les étapes 1 à 7, 9 (tableau de bord 
 - **Stage pratique** : Église locale ou œuvre agréée, rapport et attestation du responsable d'accueil.
 - **Documents délivrés** : attestation de fin de 1re année, relevés annuels, diplôme de l'IBM (signé par le Fondateur, et par l'université partenaire le cas échéant).
 - **Tenue** : nœud papillon **bleu en 1re année, vert en 2e année**.
-- **Contacts** : +237 686 921 208 / +237 673 011 317. Deux e-mails différents existent : `ib_miresan@yahoo.com` (flyer) et `ibmiresan@gmail.com` (logo), **à confirmer**. Site indiqué sur le flyer : www.ib.miresan.org.
+- **Contacts** : +237 686 921 208 / +237 673 011 317. Deux e-mails différents existent : `ib_miresan@yahoo.com` (flyer) et `ibmiresan@gmail.com` (logo). **Tranché le 25/09/2026 : `ibmiresan@gmail.com`.** Site indiqué sur le flyer : www.ib.miresan.org.
 - **Slogans du flyer** (utilisables à la place de faux témoignages) : « Une formation pour aujourd'hui, un impact pour demain », « De l'appel à l'équipement, de l'équipement au déploiement ! », « Ensemble pour la moisson ! », « Prépare-toi pour le service, Dieu a une œuvre pour toi ! ». Verset : « Équipez le peuple de Dieu pour l'œuvre du ministère » (Éph 4:12).
 
 Les 36 cours : voir la section 7 du brief. Détails du flyer : « Théologie 5 : Ecclésiologie + Eschatologie » et « Théologie 4 : Angélologie + Démonologie (Doctrine sur les Anges) ».

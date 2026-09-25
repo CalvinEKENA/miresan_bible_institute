@@ -74,9 +74,9 @@ test.describe("direction", () => {
     await signIn(page, "direction.demo");
     await expect(page).toHaveURL(/\/admin$/);
     await expect(page.getByRole("heading", { level: 1 })).toContainText("Pasteur Armel");
-    await expect(page.getByText("Horaire du jeudi à confirmer")).toBeVisible();
+    await expect(page.getByText("Répartition des cours par trimestre provisoire")).toBeVisible();
     await page.goto("/admin/parametres");
-    await expect(page.getByLabel("Adresse e-mail").first()).toHaveValue("ib_miresan@yahoo.com");
+    await expect(page.getByLabel("Adresse e-mail").first()).toHaveValue("ibmiresan@gmail.com");
     await expect(page.getByText("Points à confirmer")).toBeVisible();
   });
 });

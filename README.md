@@ -49,10 +49,10 @@ Ces comptes n’existent qu’en démo. Ils n’ont aucun lien avec les comptes 
 
 ## Points institutionnels à confirmer
 
-Ces points sont **paramétrables** dans `/admin/parametres` et signalés dans le tableau de bord :
+Tout reste **paramétrable** dans `/admin/parametres`.
 
-1. **Horaire du jeudi.** Les Statuts indiquent 15h00–20h30, le flyer 16h00–20h00. La démo utilise l’horaire des Statuts.
-2. **Adresse e-mail officielle.** `ib_miresan@yahoo.com` (flyer) ou `ibmiresan@gmail.com` (logo).
-3. **Répartition des cours par trimestre.** Elle est provisoire (1–6, 7–12, 13–18).
+- ✅ **Horaire du jeudi** : 16h00–20h00 (flyer de rentrée), retenu par la Direction.
+- ✅ **Adresse e-mail officielle** : `ibmiresan@gmail.com`, retenue par la Direction.
+- ⏳ **Répartition des cours par trimestre** : provisoire (1–6, 7–12, 13–18), signalée dans le tableau de bord.
 
 L’affiliation à la CFAU est toujours présentée comme une **démarche** en cours, jamais comme acquise.

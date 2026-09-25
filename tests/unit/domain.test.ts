@@ -31,9 +31,12 @@ describe("paramètres institutionnels", () => {
     expect(text).not.toMatch(/\b(accrédité|affilié à|affiliation obtenue)\b/);
   });
 
-  it("signale les ambiguïtés à confirmer", () => {
-    expect(DEFAULT_SETTINGS.notices.map((n) => n.id)).toEqual(expect.arrayContaining(["thursday-hours", "contact-email"]));
-    expect(DEFAULT_SETTINGS.emails.filter((e) => e.primary)).toHaveLength(1);
+  it("applique les décisions de la Direction (horaire du jeudi, e-mail officiel)", () => {
+    const thursday = DEFAULT_SETTINGS.schedule.find((s) => s.weekday === 4);
+    expect([thursday?.start, thursday?.end]).toEqual(["16:00", "20:00"]);
+    const primary = DEFAULT_SETTINGS.emails.filter((e) => e.primary);
+    expect(primary.map((e) => e.address)).toEqual(["ibmiresan@gmail.com"]);
+    expect(DEFAULT_SETTINGS.notices.map((n) => n.id)).toEqual(["term-split"]);
   });
 });
 

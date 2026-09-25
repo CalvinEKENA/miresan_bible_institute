@@ -22,8 +22,8 @@ export const DEFAULT_SETTINGS: InstitutionSettings = {
   address: { line: "Église de la MIRESAN, Complexe El Dorado, Nkomo", city: "Yaoundé", country: "Cameroun" },
   phones: ["+237 686 921 208", "+237 673 011 317"],
   emails: [
-    { address: "ib_miresan@yahoo.com", label: "Secrétariat", source: "Flyer de rentrée 2026", confirmed: false, primary: true },
-    { address: "ibmiresan@gmail.com", label: "Adresse figurant sur le logo", source: "Logo officiel", confirmed: false, primary: false },
+    { address: "ibmiresan@gmail.com", label: "Adresse officielle", source: "Confirmée par la Direction (septembre 2026)", confirmed: true, primary: true },
+    { address: "ib_miresan@yahoo.com", label: "Adresse du flyer 2026 (non retenue)", source: "Flyer de rentrée 2026", confirmed: false, primary: false },
   ],
   website: "www.ib.miresan.org",
   affiliation: {
@@ -34,7 +34,8 @@ export const DEFAULT_SETTINGS: InstitutionSettings = {
   },
   academicYear: { label: "2026 – 2027", startDate: "2026-11-07T08:00:00+01:00", startLabel: "Samedi 7 novembre 2026" },
   schedule: [
-    { id: "thu", weekday: 4, start: "15:00", end: "20:30", label: "Cours du jeudi" },
+    // Horaire du flyer de rentrée, retenu par la Direction (les Statuts indiquaient 15h00–20h30).
+    { id: "thu", weekday: 4, start: "16:00", end: "20:00", label: "Cours du jeudi" },
     { id: "sat", weekday: 6, start: "08:00", end: "14:30", label: "Cours du samedi" },
   ],
   fees: [
@@ -75,20 +76,6 @@ export const DEFAULT_SETTINGS: InstitutionSettings = {
   grading: DEFAULT_GRADING,
   attendance: DEFAULT_ATTENDANCE,
   notices: [
-    {
-      id: "thursday-hours",
-      field: "schedule.thu",
-      severity: "warning",
-      message:
-        "Les Statuts et le Règlement intérieur indiquent le jeudi 15h00–20h30 ; le flyer de rentrée indique 16h00–20h00. Horaire à confirmer par la Direction.",
-    },
-    {
-      id: "contact-email",
-      field: "emails",
-      severity: "warning",
-      message:
-        "Deux adresses coexistent : ib_miresan@yahoo.com (flyer) et ibmiresan@gmail.com (logo). Désignez l’adresse principale confirmée.",
-    },
     {
       id: "term-split",
       field: "courses.term",
