@@ -1,0 +1,25 @@
+# ════════════════════════════════════════════════════════════════════
+#  Firebase App Hosting — surcharge PRODUCTION
+#  S'applique uniquement au backend dont le nom d'environnement est « production »
+#  (console Firebase → App Hosting → backend → Paramètres → Environnement).
+#  Prérequis : docs/FIREBASE.md (règles, index, fonctions, init-institution, bootstrap-admin).
+# ════════════════════════════════════════════════════════════════════
+runConfig:
+  minInstances: 1
+  maxInstances: 6
+
+env:
+  - variable: NEXT_PUBLIC_DATA_MODE
+    value: firebase
+    availability: [BUILD, RUNTIME]
+  - variable: NEXT_PUBLIC_PREVIEW_MODE
+    value: "false"
+    availability: [BUILD, RUNTIME]
+  # À remplacer par le domaine définitif (ex. https://www.ib.miresan.org) une fois relié au backend de production.
+  - variable: NEXT_PUBLIC_SITE_URL
+    value: https://www.ib.miresan.org
+    availability: [BUILD, RUNTIME]
+  # App Check (reCAPTCHA Enterprise) — à renseigner avant l'ouverture
+  # - variable: NEXT_PUBLIC_APP_CHECK_SITE_KEY
+  #   value: <clé de site>
+  #   availability: [BUILD]

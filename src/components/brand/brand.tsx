@@ -1,7 +1,22 @@
+import { useId } from "react";
 import { cn } from "@/lib/cn";
 import { type Pillar } from "@/domain/types";
 
 const LOGO_WIDTHS = [96, 192, 384, 640] as const;
+
+/**
+ * Coordonnées SVG arrondies au centième : le rendu ne dépend jamais de la
+ * dernière décimale de Math.cos/Math.sin, qui varie selon les moteurs JS.
+ */
+const r2 = (n: number) => Math.round(n * 100) / 100;
+
+/**
+ * Identifiant SVG unique par instance (gradients, masques), stable entre le
+ * serveur et le client. `useId` est disponible dans les Server Components.
+ */
+function useSvgId(prefix: string) {
+  return `${prefix}${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
+}
 
 /**
  * Logo officiel (variantes webp générées par `npm run assets`), servi en srcset :
@@ -43,30 +58,31 @@ export function Wordmark({ className, light = false }: { className?: string; lig
 
 /** Rayons dorés issus du logo — SVG statique, rotation CSS très lente. */
 export function Rays({ className, count = 72, spin = true }: { className?: string; count?: number; spin?: boolean }) {
+  const fadeId = useSvgId("ray-fade-");
   const rays = Array.from({ length: count }, (_, i) => {
     const angle = (i / count) * Math.PI * 2;
     const long = i % 2 === 0;
     const inner = 118;
     const outer = long ? 500 : 330 + ((i * 37) % 90);
     return {
-      x1: 500 + Math.cos(angle) * inner,
-      y1: 500 + Math.sin(angle) * inner,
-      x2: 500 + Math.cos(angle) * outer,
-      y2: 500 + Math.sin(angle) * outer,
+      x1: r2(500 + Math.cos(angle) * inner),
+      y1: r2(500 + Math.sin(angle) * inner),
+      x2: r2(500 + Math.cos(angle) * outer),
+      y2: r2(500 + Math.sin(angle) * outer),
       w: long ? 1.1 : 0.6,
     };
   });
   return (
     <svg aria-hidden viewBox="0 0 1000 1000" className={cn("pointer-events-none", className)}>
       <defs>
-        <radialGradient id="ray-fade" cx="50%" cy="50%" r="50%">
+        <radialGradient id={fadeId} cx="50%" cy="50%" r="50%">
           <stop offset="0.2" stopColor="var(--color-gold-300)" stopOpacity="0.9" />
           <stop offset="1" stopColor="var(--color-gold-300)" stopOpacity="0" />
         </radialGradient>
       </defs>
-      <g className={cn(spin && "origin-center animate-rays motion-reduce:animate-none")} style={{ transformBox: "fill-box" }} stroke="url(#ray-fade)">
+      <g className={cn(spin && "origin-center animate-rays motion-reduce:animate-none")} style={{ transformBox: "fill-box" }} stroke={`url(#${fadeId})`}>
         {rays.map((r, i) => (
-          <line key={i} x1={r.x1.toFixed(1)} y1={r.y1.toFixed(1)} x2={r.x2.toFixed(1)} y2={r.y2.toFixed(1)} strokeWidth={r.w} />
+          <line key={i} x1={r.x1} y1={r.y1} x2={r.x2} y2={r.y2} strokeWidth={r.w} />
         ))}
       </g>
     </svg>
@@ -78,6 +94,8 @@ export function Rays({ className, count = 72, spin = true }: { className?: strin
  * Entièrement vectorielle (≈3 Ko), aucune image.
  */
 export function OpenBible({ className }: { className?: string }) {
+  const glowId = useSvgId("spine-glow-");
+  const strokeId = useSvgId("page-stroke-");
   const W = 1200;
   const spineX = W / 2;
   const lines = Array.from({ length: 14 }, (_, i) => i);
@@ -95,27 +113,27 @@ export function OpenBible({ className }: { className?: string }) {
   return (
     <svg aria-hidden viewBox={`0 0 ${W} 470`} className={cn("pointer-events-none", className)} fill="none">
       <defs>
-        <radialGradient id="spine-glow" cx="50%" cy="40%" r="55%">
+        <radialGradient id={glowId} cx="50%" cy="40%" r="55%">
           <stop offset="0" stopColor="var(--color-gold-300)" stopOpacity="0.55" />
           <stop offset="0.45" stopColor="var(--color-gold-500)" stopOpacity="0.12" />
           <stop offset="1" stopColor="var(--color-gold-500)" stopOpacity="0" />
         </radialGradient>
-        <linearGradient id="page-stroke" x1="0" x2="1">
+        <linearGradient id={strokeId} x1="0" x2="1">
           <stop offset="0" stopColor="var(--color-gold-300)" stopOpacity="0.15" />
           <stop offset="0.5" stopColor="var(--color-gold-300)" stopOpacity="0.8" />
           <stop offset="1" stopColor="var(--color-gold-300)" stopOpacity="0.15" />
         </linearGradient>
       </defs>
-      <ellipse cx={spineX} cy={180} rx={520} ry={240} fill="url(#spine-glow)" />
+      <ellipse cx={spineX} cy={180} rx={520} ry={240} fill={`url(#${glowId})`} />
       {/* tranche : feuillets empilés */}
       {[18, 12, 6].map((lift) => (
         <g key={lift} opacity={0.35 + lift / 60}>
-          <path d={page(-1, lift)} stroke="url(#page-stroke)" strokeWidth={0.8} />
-          <path d={page(1, lift)} stroke="url(#page-stroke)" strokeWidth={0.8} />
+          <path d={page(-1, lift)} stroke={`url(#${strokeId})`} strokeWidth={0.8} />
+          <path d={page(1, lift)} stroke={`url(#${strokeId})`} strokeWidth={0.8} />
         </g>
       ))}
-      <path d={page(-1, 0)} stroke="url(#page-stroke)" strokeWidth={1.2} fill="rgb(251 248 241 / 0.025)" />
-      <path d={page(1, 0)} stroke="url(#page-stroke)" strokeWidth={1.2} fill="rgb(251 248 241 / 0.025)" />
+      <path d={page(-1, 0)} stroke={`url(#${strokeId})`} strokeWidth={1.2} fill="rgb(251 248 241 / 0.025)" />
+      <path d={page(1, 0)} stroke={`url(#${strokeId})`} strokeWidth={1.2} fill="rgb(251 248 241 / 0.025)" />
       <g stroke="var(--color-ivory-50)" strokeOpacity={0.16} strokeWidth={0.9} strokeLinecap="round">
         {lines.map((i) => (
           <path key={`l${i}`} d={textLine(-1, i)} />
@@ -130,6 +148,18 @@ export function OpenBible({ className }: { className?: string }) {
     </svg>
   );
 }
+
+/** Rayons du pictogramme « Déployer » (8 × 45°), en valeurs littérales. */
+const DEPLOY_RAYS: [number, number, number, number][] = [
+  [19, 12, 22.5, 12],
+  [16.95, 16.95, 19.42, 19.42],
+  [12, 19, 12, 22.5],
+  [7.05, 16.95, 4.58, 19.42],
+  [5, 12, 1.5, 12],
+  [7.05, 7.05, 4.58, 4.58],
+  [12, 5, 12, 1.5],
+  [16.95, 7.05, 19.42, 4.58],
+];
 
 /** Pictogrammes abstraits des trois piliers (graine, croissance, envoi). */
 export function PillarGlyph({ pillar, className }: { pillar: Pillar; className?: string }) {
@@ -151,10 +181,9 @@ export function PillarGlyph({ pillar, className }: { pillar: Pillar; className?:
       {pillar === "deploy" && (
         <>
           <circle cx="12" cy="12" r="4.5" />
-          {Array.from({ length: 8 }, (_, i) => {
-            const a = (i / 8) * Math.PI * 2;
-            return <line key={i} x1={12 + Math.cos(a) * 7} y1={12 + Math.sin(a) * 7} x2={12 + Math.cos(a) * 10.5} y2={12 + Math.sin(a) * 10.5} />;
-          })}
+          {DEPLOY_RAYS.map(([x1, y1, x2, y2], i) => (
+            <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} />
+          ))}
         </>
       )}
     </svg>

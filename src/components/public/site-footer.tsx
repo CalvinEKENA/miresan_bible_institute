@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Logo } from "@/components/brand/brand";
 import { type InstitutionSettings } from "@/domain/types";
 import { primaryEmail } from "@/data/public-settings";
+import { PREVIEW_MODE } from "@/lib/env";
 import { PUBLIC_NAV } from "./nav";
 
 export function SiteFooter({ settings }: { settings: InstitutionSettings }) {
@@ -72,7 +73,10 @@ export function SiteFooter({ settings }: { settings: InstitutionSettings }) {
         </div>
 
         <div className="mt-16 flex flex-col gap-3 border-t border-ivory-50/10 pt-6 text-xs text-ivory-50/65 sm:flex-row sm:justify-between">
-          <p>© {new Date().getFullYear()} {settings.name}. Tous droits réservés.</p>
+          <p>
+            © {new Date().getFullYear()} {settings.name}. Tous droits réservés.
+            {PREVIEW_MODE && <span className="ml-2 text-gold-300/80">· Version de présentation</span>}
+          </p>
           <p>« Équipez le peuple de Dieu pour l’œuvre du ministère » — d’après Éphésiens 4:12</p>
         </div>
       </div>

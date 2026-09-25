@@ -523,6 +523,9 @@ function NotesPanel({ lesson, annotations, onNote, onRemove }: { lesson: Lesson;
   );
 }
 
+/** Arrondi au centième (indépendant de la précision de Math.cos/sin du moteur). */
+const r2 = (n: number) => Math.round(n * 100) / 100;
+
 function CompletionSeal() {
   return (
     <svg viewBox="0 0 120 120" className="size-28 text-accent" aria-hidden>
@@ -530,7 +533,7 @@ function CompletionSeal() {
       <circle cx="60" cy="60" r="47" fill="none" stroke="currentColor" strokeWidth="0.6" strokeDasharray="2 3" />
       {Array.from({ length: 24 }, (_, i) => {
         const a = (i / 24) * Math.PI * 2;
-        return <line key={i} x1={60 + Math.cos(a) * 30} y1={60 + Math.sin(a) * 30} x2={60 + Math.cos(a) * 40} y2={60 + Math.sin(a) * 40} stroke="currentColor" strokeWidth="0.7" opacity="0.6" />;
+        return <line key={i} x1={r2(60 + Math.cos(a) * 30)} y1={r2(60 + Math.sin(a) * 30)} x2={r2(60 + Math.cos(a) * 40)} y2={r2(60 + Math.sin(a) * 40)} stroke="currentColor" strokeWidth="0.7" opacity="0.6" />;
       })}
       <path d="M46 61l9 9 19-20" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
     </svg>

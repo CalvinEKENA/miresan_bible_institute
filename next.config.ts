@@ -10,6 +10,9 @@ const securityHeaders = [
 
 const privateAreas = ["/campus/:path*", "/enseignant/:path*", "/admin/:path*", "/connexion"];
 
+// Preview client : tout le site est exclu de l'indexation (voir apphosting.yaml).
+const previewMode = process.env.NEXT_PUBLIC_PREVIEW_MODE === "true";
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
@@ -22,7 +25,7 @@ const nextConfig: NextConfig = {
   },
   async headers() {
     return [
-      { source: "/:path*", headers: securityHeaders },
+      { source: "/:path*", headers: previewMode ? [...securityHeaders, { key: "X-Robots-Tag", value: "noindex, nofollow" }] : securityHeaders },
       // Private spaces must never be indexed, whatever the page metadata says.
       ...privateAreas.map((source) => ({
         source,

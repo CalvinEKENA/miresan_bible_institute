@@ -31,6 +31,7 @@ Ces comptes n’existent qu’en démo. Ils n’ont aucun lien avec les comptes 
 | `npm run lint` · `typecheck` · `test` | ESLint, TypeScript strict, tests Vitest (domaine, store, quiz) |
 | `npm run test:rules` | Tests des Security Rules sur l’émulateur Firestore (Firebase CLI requis) |
 | `npm run test:e2e` | Parcours Playwright (mobile 360 et desktop 1440), après `npm run build` |
+| `npm run test:hydration` | Garde-fou d’hydratation sur le serveur de développement (9 routes + test témoin) |
 | `npm run validate` | lint + typecheck + tests + build |
 | `npm run assets` | Génère les variantes du logo, les icônes PWA et l’image Open Graph |
 | `npm run emulators` | Émulateurs Auth, Firestore, Storage, Functions |
@@ -45,6 +46,7 @@ Ces comptes n’existent qu’en démo. Ils n’ont aucun lien avec les comptes 
 - [docs/FIREBASE.md](docs/FIREBASE.md) : mise en service, bootstrap admin, émulateurs, déploiement
 - [docs/SECURITY.md](docs/SECURITY.md) : rôles, règles, secrets, audit
 - [docs/DESIGN_SYSTEM.md](docs/DESIGN_SYSTEM.md) : tokens, typographie, composants, mouvement
+- [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) : preview client et production (App Hosting)
 - [docs/HANDOFF.md](docs/HANDOFF.md) : faits institutionnels, décisions, état d’avancement
 
 ## Points institutionnels à confirmer

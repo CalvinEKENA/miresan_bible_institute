@@ -24,7 +24,8 @@
     "bootstrap:admin": "tsx scripts/bootstrap-admin.ts",
     "validate": "npm run lint && npm run typecheck && npm run test && npm run build",
     "emulators:resume": "firebase emulators:start --project demo-miresan --import ./.emulator-data --export-on-exit",
-    "functions:build": "npm --prefix functions run build"
+    "functions:build": "npm --prefix functions run build",
+    "test:hydration": "playwright test --config playwright.hydration.config.ts"
   },
   "dependencies": {
     "firebase": "^12.19.0",

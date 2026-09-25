@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Hanken_Grotesk, Newsreader } from "next/font/google";
 import { RegisterServiceWorker } from "@/components/pwa/register-sw";
-import { SITE_URL } from "@/lib/env";
+import { PREVIEW_MODE, SITE_URL } from "@/lib/env";
 import "./globals.css";
 
 // Sous-ensemble « latin » uniquement : il couvre le français (é, è, ç, œ, « », ’).
@@ -36,6 +36,7 @@ export const metadata: Metadata = {
     siteName: "Institut Biblique de la MIRESAN",
   },
   formatDetection: { telephone: false },
+  ...(PREVIEW_MODE ? { robots: { index: false, follow: false, googleBot: { index: false, follow: false } } } : {}),
 };
 
 export const viewport: Viewport = {

@@ -8,7 +8,17 @@ export const DATA_MODE: "demo" | "firebase" = process.env.NEXT_PUBLIC_DATA_MODE 
 
 export const USE_EMULATORS = process.env.NEXT_PUBLIC_USE_EMULATORS === "true";
 
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://miresan-bible-institute.web.app").replace(/\/$/, "");
+/**
+ * URL publique réelle, fournie par la configuration d'hébergement (apphosting*.yaml).
+ * En local, repli sur le serveur de développement : aucune URL fictive n'est exposée.
+ */
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(/\/$/, "");
+
+/**
+ * Mode preview (version de présentation client) : tout le site est exclu des
+ * moteurs de recherche (métadonnées robots, robots.txt, en-tête X-Robots-Tag).
+ */
+export const PREVIEW_MODE = process.env.NEXT_PUBLIC_PREVIEW_MODE === "true";
 
 export const IDENTITY_DOMAIN = process.env.NEXT_PUBLIC_IDENTITY_DOMAIN ?? "id.miresan-bible-institute.app";
 

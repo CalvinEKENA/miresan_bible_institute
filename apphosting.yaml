@@ -1,19 +1,30 @@
-# Firebase App Hosting — configuration de production (Next.js SSR).
-# Les valeurs NEXT_PUBLIC_* sont publiques par nature ; les secrets serveur
-# passent par Cloud Secret Manager (`firebase apphosting:secrets:set`).
+# ════════════════════════════════════════════════════════════════════
+#  Firebase App Hosting — configuration de BASE = PREVIEW CLIENT (sûre par défaut)
+#
+#  Tout backend SANS nom d'environnement utilise ce fichier seul :
+#    · données de démonstration en mémoire (aucune écriture Firebase),
+#    · site entièrement exclu de l'indexation (noindex).
+#  La production réelle exige un backend dont l'environnement est nommé
+#  « production » : App Hosting fusionne alors apphosting.production.yaml
+#  par-dessus ce fichier. Voir docs/DEPLOYMENT.md.
+# ════════════════════════════════════════════════════════════════════
 runConfig:
   minInstances: 0
-  maxInstances: 4
+  maxInstances: 2
   concurrency: 80
   cpu: 1
   memoryMiB: 512
 
 env:
   - variable: NEXT_PUBLIC_DATA_MODE
-    value: firebase
+    value: demo
     availability: [BUILD, RUNTIME]
+  - variable: NEXT_PUBLIC_PREVIEW_MODE
+    value: "true"
+    availability: [BUILD, RUNTIME]
+  # URL attribuée par App Hosting au backend de preview « miresan-preview » (région europe-west4).
   - variable: NEXT_PUBLIC_SITE_URL
-    value: https://miresan-bible-institute.web.app
+    value: https://miresan-preview--miresan-bible-institute.europe-west4.hosted.app
     availability: [BUILD, RUNTIME]
   - variable: NEXT_PUBLIC_IDENTITY_DOMAIN
     value: id.miresan-bible-institute.app
@@ -21,7 +32,3 @@ env:
   - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
     value: miresan-bible-institute
     availability: [BUILD, RUNTIME]
-  # App Check (reCAPTCHA Enterprise) — à renseigner une fois la clé créée
-  # - variable: NEXT_PUBLIC_APP_CHECK_SITE_KEY
-  #   value: <clé de site>
-  #   availability: [BUILD]
