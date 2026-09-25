@@ -100,9 +100,9 @@ export default function TeacherHome() {
   const { data, status, reload } = useData(`teacher:${uid}`, async (store) => {
     const [courses, lessons, users, events] = await Promise.all([
       store.list("courses", { where: [["teacherIds", "array-contains", uid]] }),
-      store.list("lessons"),
+      store.list("lessons", { where: [["status", "==", "published"]] }),
       store.list("users", { where: [["role", "==", "student"]] }),
-      store.list("events", { orderBy: ["start", "asc"] }),
+      store.list("events", { where: [["audience", "in", ["students", "teachers", "all", "public"]]], orderBy: ["start", "asc"] }),
     ]);
     return { courses: courses.sort((a, b) => a.level - b.level || a.order - b.order), lessons, users, events };
   });

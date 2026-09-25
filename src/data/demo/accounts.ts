@@ -1,5 +1,5 @@
 /** Comptes fictifs du mode démo (aucun lien avec les comptes réels Firebase). */
-export const DEMO_PASSWORD = "demo";
+export const DEMO_PASSWORD = "demo2026";
 
 export const DEMO_ACCOUNTS = [
   { username: "etudiant.demo", uid: "demo-student", label: "Étudiante", detail: "1re année · promotion 2026" },

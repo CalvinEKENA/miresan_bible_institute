@@ -2,19 +2,28 @@ import { type DataStore } from "./store/types";
 import { summarizeAttendance } from "@/domain/attendance";
 import { type InstitutionSettings } from "@/domain/types";
 
-/** Agrégats du tableau de bord de direction (lectures réservées au personnel). */
+/** Une section illisible pour le rôle courant (ex. paiements pour le doyen) reste vide au lieu de tout bloquer. */
+async function safe<T>(promise: Promise<T[]>): Promise<T[]> {
+  try {
+    return await promise;
+  } catch {
+    return [];
+  }
+}
+
+/** Agrégats du tableau de bord de direction (lectures réservées au personnel, filtrées par firestore.rules). */
 export async function loadInstitutionOverview(store: DataStore) {
   const [settingsDoc, users, courses, lessons, progress, attendance, payments, events, applications, announcements] = await Promise.all([
-    store.get("settings", "institution"),
-    store.list("users"),
-    store.list("courses"),
-    store.list("lessons"),
-    store.list("progress"),
-    store.list("attendance"),
-    store.list("payments"),
-    store.list("events", { orderBy: ["start", "asc"] }),
-    store.list("applications", { orderBy: ["submittedAt", "desc"] }),
-    store.list("announcements", { orderBy: ["publishedAt", "desc"] }),
+    store.get("settings", "institution").catch(() => null),
+    safe(store.list("users")),
+    safe(store.list("courses")),
+    safe(store.list("lessons")),
+    safe(store.list("progress")),
+    safe(store.list("attendance")),
+    safe(store.list("payments")),
+    safe(store.list("events", { orderBy: ["start", "asc"] })),
+    safe(store.list("applications", { orderBy: ["submittedAt", "desc"] })),
+    safe(store.list("announcements", { orderBy: ["publishedAt", "desc"] })),
   ]);
   const settings = settingsDoc as InstitutionSettings | null;
   const students = users.filter((u) => u.role === "student" && u.status === "active");

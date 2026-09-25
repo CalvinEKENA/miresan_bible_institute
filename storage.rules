@@ -1,0 +1,48 @@
+rules_version = '2';
+
+// IB-MIRESAN — Cloud Storage Security Rules (rôles via custom claim `role`).
+service firebase.storage {
+  match /b/{bucket}/o {
+    function signedIn() { return request.auth != null; }
+    function hasRole(roles) { return signedIn() && ('role' in request.auth.token) && request.auth.token.role in roles; }
+    function isAcademicStaff() { return hasRole(['super_admin', 'founder', 'director', 'dean', 'academic_secretariat']); }
+    function teaches(courseId) {
+      return hasRole(['teacher'])
+        && request.auth.uid in firestore.get(/databases/(default)/documents/courses/$(courseId)).data.teacherIds;
+    }
+    function under(mb) { return request.resource.size < mb * 1024 * 1024; }
+    function isImage() { return request.resource.contentType.matches('image/(png|jpeg|webp|avif)'); }
+    function isDocument() { return request.resource.contentType == 'application/pdf'; }
+    function isMedia() { return request.resource.contentType.matches('(audio|video)/.*'); }
+
+    // Ressources publiques (site vitrine)
+    match /public/{path=**} {
+      allow read: if true;
+      allow write: if isAcademicStaff() && (isImage() || isDocument()) && under(8);
+    }
+
+    // Contenus de cours : lecture par les connectés, écriture enseignant du cours / staff
+    match /courses/{courseId}/{path=**} {
+      allow read: if signedIn();
+      allow write: if (isAcademicStaff() || teaches(courseId))
+        && ((isImage() && under(5)) || (isDocument() && under(25)) || (isMedia() && under(200)));
+    }
+
+    // Espace personnel (photo, justificatifs)
+    match /users/{uid}/{path=**} {
+      allow read: if (signedIn() && request.auth.uid == uid) || isAcademicStaff();
+      allow write: if signedIn() && request.auth.uid == uid && (isImage() || isDocument()) && under(5);
+    }
+
+    // Travaux rendus : l'étudiant dépose, ne relit que les siens
+    match /submissions/{uid}/{path=**} {
+      allow read: if (signedIn() && request.auth.uid == uid) || isAcademicStaff() || hasRole(['teacher']);
+      allow create: if signedIn() && request.auth.uid == uid && (isDocument() || isImage()) && under(20);
+      allow update, delete: if false;
+    }
+
+    match /{path=**} {
+      allow read, write: if false;
+    }
+  }
+}

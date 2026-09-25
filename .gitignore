@@ -44,3 +44,6 @@ Thumbs.db
 *.pem
 .vercel
 /logo (1).png
+
+# cloud functions: shared domain copied at build time
+functions/src/shared/

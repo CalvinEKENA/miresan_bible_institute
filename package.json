@@ -15,14 +15,16 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:rules": "firebase emulators:exec --only firestore,storage --project demo-miresan \"vitest run --config vitest.rules.config.ts\"",
+    "test:rules": "firebase emulators:exec --only firestore --project demo-miresan \"vitest run --config vitest.rules.config.ts\"",
     "test:e2e": "playwright test",
     "assets": "node scripts/prepare-brand-assets.mjs",
-    "emulators": "firebase emulators:start --project demo-miresan --import ./.emulator-data --export-on-exit",
+    "emulators": "firebase emulators:start --project demo-miresan --export-on-exit ./.emulator-data",
     "seed:demo": "tsx scripts/seed-demo.ts",
     "init:institution": "tsx scripts/init-institution.ts",
     "bootstrap:admin": "tsx scripts/bootstrap-admin.ts",
-    "validate": "npm run lint && npm run typecheck && npm run test && npm run build"
+    "validate": "npm run lint && npm run typecheck && npm run test && npm run build",
+    "emulators:resume": "firebase emulators:start --project demo-miresan --import ./.emulator-data --export-on-exit",
+    "functions:build": "npm --prefix functions run build"
   },
   "dependencies": {
     "firebase": "^12.19.0",

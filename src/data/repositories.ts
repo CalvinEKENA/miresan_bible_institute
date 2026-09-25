@@ -71,7 +71,12 @@ export async function loadStudentOverview(store: DataStore, profile: UserProfile
 export async function loadCourse(store: DataStore, courseId: string, uid: string) {
   const [course, lessons, progress, assessments] = await Promise.all([
     store.get("courses", courseId),
-    store.list("lessons", { where: [["courseId", "==", courseId]] }),
+    store.list("lessons", {
+      where: [
+        ["courseId", "==", courseId],
+        ["status", "==", "published"],
+      ],
+    }),
     store.list("progress", {
       where: [
         ["uid", "==", uid],

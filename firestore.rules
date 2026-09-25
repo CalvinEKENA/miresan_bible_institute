@@ -1,0 +1,207 @@
+rules_version = '2';
+
+// ════════════════════════════════════════════════════════════════════
+//  IB-MIRESAN — Firestore Security Rules
+//  Le rôle provient EXCLUSIVEMENT du custom claim `role`, posé par l'Admin
+//  SDK (scripts/bootstrap-admin.ts, Cloud Functions setUserRole /
+//  createUserAccount). Aucun client ne peut modifier un rôle, une note
+//  publiée, un paiement ou le journal d'audit.
+//  Miroir documentaire : src/domain/permissions.ts
+// ════════════════════════════════════════════════════════════════════
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Identité & rôles ───────────────────────────────────────────
+    function signedIn() { return request.auth != null; }
+    function role() { return request.auth.token.role; }
+    function hasRole(roles) { return signedIn() && ('role' in request.auth.token) && role() in roles; }
+    function isSelf(uid) { return signedIn() && request.auth.uid == uid; }
+
+    function isDirection() { return hasRole(['super_admin', 'founder', 'director']); }
+    function isDeanOrAbove() { return hasRole(['super_admin', 'founder', 'director', 'dean']); }
+    function isAcademicStaff() { return hasRole(['super_admin', 'founder', 'director', 'dean', 'academic_secretariat']); }
+    function isFinance() { return hasRole(['super_admin', 'founder', 'director', 'finance_officer']); }
+    function isStaff() { return hasRole(['super_admin', 'founder', 'director', 'dean', 'academic_secretariat', 'finance_officer']); }
+    function isTeacher() { return hasRole(['teacher']); }
+    function isStudent() { return hasRole(['student']); }
+
+    function courseDoc(courseId) { return get(/databases/$(database)/documents/courses/$(courseId)); }
+    function teaches(courseId) { return isTeacher() && request.auth.uid in courseDoc(courseId).data.teacherIds; }
+
+    function changed() { return request.resource.data.diff(resource.data).affectedKeys(); }
+    function onlyChanges(keys) { return changed().hasOnly(keys); }
+    function unchanged(key) { return !changed().hasAny([key]); }
+
+    // ── Paramètres institutionnels ─────────────────────────────────
+    // `institution` est public (site vitrine) ; édition réservée à la direction.
+    match /settings/{id} {
+      allow read: if id == 'institution' || isStaff();
+      allow write: if isDirection();
+    }
+
+    // ── Offre de formation ────────────────────────────────────────
+    match /programs/{id} {
+      allow read: if true;
+      allow write: if isAcademicStaff();
+    }
+
+    match /courses/{courseId} {
+      allow read: if true; // catalogue public
+      allow create, delete: if isAcademicStaff();
+      allow update: if isAcademicStaff()
+        // un enseignant ne peut modifier que la description de ses cours
+        || (teaches(courseId) && onlyChanges(['description']));
+    }
+
+    match /lessons/{lessonId} {
+      allow read: if signedIn() && (resource.data.status == 'published' || isAcademicStaff() || teaches(resource.data.courseId));
+      allow create: if isAcademicStaff() || teaches(request.resource.data.courseId);
+      allow update: if isAcademicStaff() || (teaches(resource.data.courseId) && unchanged('courseId'));
+      allow delete: if isAcademicStaff();
+    }
+
+    // ── Évaluations ────────────────────────────────────────────────
+    match /assessments/{id} {
+      allow read: if signedIn() && (resource.data.status == 'published' || isAcademicStaff() || teaches(resource.data.courseId));
+      allow create: if isDeanOrAbove() || teaches(request.resource.data.courseId);
+      allow update: if isDeanOrAbove() || (teaches(resource.data.courseId) && unchanged('courseId'));
+      allow delete: if isDeanOrAbove();
+    }
+
+    // Corrigés : jamais lisibles par un étudiant (correction par Cloud Function).
+    match /assessmentKeys/{assessmentId} {
+      function parentCourse() { return get(/databases/$(database)/documents/assessments/$(assessmentId)).data.courseId; }
+      allow read, write: if isDeanOrAbove() || teaches(parentCourse());
+    }
+
+    // Tentatives : écrites uniquement par la fonction submitAttempt.
+    match /attempts/{id} {
+      allow read: if isSelf(resource.data.uid) || isAcademicStaff() || isTeacher();
+      allow write: if false;
+    }
+
+    // ── Personnes ─────────────────────────────────────────────────
+    match /users/{uid} {
+      allow read: if isSelf(uid) || isStaff() || isTeacher();
+      allow create, delete: if false; // Admin SDK uniquement
+      allow update: if
+        // l'utilisateur : coordonnées personnelles, et levée du drapeau de changement de mot de passe
+        (isSelf(uid)
+          && onlyChanges(['phone', 'recoveryEmail', 'mustChangePassword'])
+          && (unchanged('mustChangePassword') || request.resource.data.mustChangePassword == false))
+        // le secrétariat : fiche administrative, jamais le rôle ni le statut de compte
+        || (isAcademicStaff() && unchanged('role') && unchanged('uid') && unchanged('username'));
+    }
+
+    match /enrollments/{id} {
+      allow read: if isSelf(resource.data.uid) || isStaff() || isTeacher();
+      allow write: if isAcademicStaff();
+    }
+
+    // ── Progression (écrite par l'étudiant, jamais régressive) ──────
+    match /progress/{id} {
+      allow read: if isSelf(resource.data.uid) || isAcademicStaff() || isTeacher();
+      allow create: if isSelf(request.resource.data.uid)
+        && id == request.auth.uid + '_' + request.resource.data.lessonId
+        && request.resource.data.percent is number
+        && request.resource.data.percent >= 0 && request.resource.data.percent <= 100;
+      allow update: if isSelf(resource.data.uid)
+        && unchanged('uid') && unchanged('lessonId') && unchanged('courseId')
+        && request.resource.data.percent >= resource.data.percent
+        && request.resource.data.percent <= 100;
+      allow delete: if false;
+    }
+
+    // ── Notes : l'étudiant lit ses notes publiées, ne les écrit jamais ──
+    match /grades/{id} {
+      allow read: if (isSelf(resource.data.uid) && resource.data.published == true)
+        || isAcademicStaff() || teaches(resource.data.courseId);
+      allow create: if isDeanOrAbove()
+        || (teaches(request.resource.data.courseId) && request.resource.data.published == false);
+      allow update: if isDeanOrAbove()
+        || (teaches(resource.data.courseId) && resource.data.published == false
+            && request.resource.data.published == false && unchanged('uid') && unchanged('courseId'));
+      allow delete: if hasRole(['super_admin', 'director', 'dean']);
+    }
+
+    // ── Présences : feuilles complètes réservées au personnel ─────
+    match /attendance/{id} {
+      allow read: if isAcademicStaff() || teaches(resource.data.courseId);
+      allow create: if isAcademicStaff() || teaches(request.resource.data.courseId);
+      allow update: if isAcademicStaff() || (teaches(resource.data.courseId) && unchanged('courseId'));
+      allow delete: if isAcademicStaff();
+    }
+    // Résumé individuel calculé par Cloud Function.
+    match /attendanceSummaries/{uid} {
+      allow read: if isSelf(uid) || isAcademicStaff();
+      allow write: if false;
+    }
+
+    // ── Paiements : lecture de ses reçus, écriture par la finance ──
+    match /payments/{id} {
+      allow read: if isSelf(resource.data.uid) || isFinance();
+      allow create, update: if isFinance();
+      allow delete: if false;
+    }
+
+    // ── Communication ──────────────────────────────────────────────
+    function audienceAllows(audience) {
+      return audience == 'public'
+        || (signedIn() && audience == 'all')
+        || (audience == 'students' && (isStudent() || isTeacher() || isStaff()))
+        || (audience == 'teachers' && (isTeacher() || isStaff()))
+        || (audience == 'staff' && isStaff());
+    }
+
+    match /announcements/{id} {
+      allow read: if audienceAllows(resource.data.audience);
+      allow write: if isAcademicStaff();
+    }
+
+    match /events/{id} {
+      allow read: if audienceAllows(resource.data.audience);
+      allow write: if isAcademicStaff();
+    }
+
+    match /threads/{id} {
+      allow read: if signedIn() && request.auth.uid in resource.data.participantIds;
+      allow create: if signedIn() && request.auth.uid in request.resource.data.participantIds;
+      allow update: if signedIn() && request.auth.uid in resource.data.participantIds && unchanged('participantIds');
+      allow delete: if false;
+    }
+
+    // ── Admissions ────────────────────────────────────────────────
+    match /applications/{id} {
+      allow read, update, delete: if isAcademicStaff();
+      allow create: if false; // formulaire public : via Cloud Function (anti-spam, App Check)
+    }
+
+    // ── Annotations personnelles ──────────────────────────────────
+    match /highlights/{id} {
+      allow read, delete: if isSelf(resource.data.uid);
+      allow create, update: if isSelf(request.resource.data.uid) && id.matches(request.auth.uid + '_.*');
+    }
+
+    match /library/{id} {
+      allow read: if signedIn();
+      allow write: if isAcademicStaff();
+    }
+
+    // ── Journal d'audit & vérification de diplômes ────────────────
+    match /auditLogs/{id} {
+      allow read: if isDirection();
+      allow write: if false; // triggers Cloud Functions uniquement
+    }
+
+    match /certificateVerifications/{id} {
+      allow read: if true; // informations minimales, publiques par nature
+      allow write: if false;
+    }
+
+    // Tout le reste est fermé.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
