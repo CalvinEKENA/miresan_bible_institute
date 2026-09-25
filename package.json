@@ -1,0 +1,55 @@
+{
+  "name": "miresan-bible-institute",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Campus numérique officiel de l'Institut Biblique de la MIRESAN (IB-MIRESAN / MBI)",
+  "type": "module",
+  "engines": {
+    "node": ">=20.9"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:rules": "firebase emulators:exec --only firestore,storage --project demo-miresan \"vitest run --config vitest.rules.config.ts\"",
+    "test:e2e": "playwright test",
+    "assets": "node scripts/prepare-brand-assets.mjs",
+    "emulators": "firebase emulators:start --project demo-miresan --import ./.emulator-data --export-on-exit",
+    "seed:demo": "tsx scripts/seed-demo.ts",
+    "init:institution": "tsx scripts/init-institution.ts",
+    "bootstrap:admin": "tsx scripts/bootstrap-admin.ts",
+    "validate": "npm run lint && npm run typecheck && npm run test && npm run build"
+  },
+  "dependencies": {
+    "firebase": "^12.19.0",
+    "lucide-react": "^1.48.0",
+    "motion": "^13.4.4",
+    "next": "16.3.6",
+    "qrcode": "^1.5.4",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
+    "@firebase/rules-unit-testing": "^5.0.2",
+    "@playwright/test": "^1.63.0",
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^22.15.0",
+    "@types/qrcode": "^1.5.5",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "eslint": "^9.36.0",
+    "eslint-config-next": "16.3.6",
+    "firebase-admin": "^14.5.0",
+    "sharp": "^0.35.4",
+    "tailwindcss": "^4.3.3",
+    "tsx": "^4.20.0",
+    "typescript": "~5.9.3",
+    "vitest": "^5.0.2"
+  }
+}

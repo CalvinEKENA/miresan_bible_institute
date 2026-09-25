@@ -1,0 +1,46 @@
+# dependencies
+node_modules/
+functions/node_modules/
+functions/lib/
+
+# next.js
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# testing
+coverage/
+playwright-report/
+test-results/
+
+# env — never commit secrets (bootstrap password, service accounts…)
+.env
+.env.*
+!.env.example
+service-account*.json
+*-firebase-adminsdk-*.json
+
+# firebase
+.firebase/
+.emulator-data/
+firebase-debug*.log
+firestore-debug.log
+storage-debug.log
+ui-debug.log
+database-debug.log
+
+# institutional source documents (contain signatures & personal contacts).
+# Keep them locally; publish only processed assets from /public.
+/STATUTS IBM.docx
+/REGLEMENT INTERIEUR IBM.docx
+/flyer.jpeg
+/photo.jpeg
+/docs/institution/private/
+
+# misc
+.DS_Store
+Thumbs.db
+*.pem
+.vercel
+/logo (1).png
