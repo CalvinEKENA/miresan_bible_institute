@@ -1,5 +1,35 @@
 # IB-MIRESAN — Note de reprise (handoff)
 
+## ⏩ État au 2026-09-25, fin de la session cloud (à lire en premier)
+
+Branche : `claude/stoic-feynman-02ipvu`. Les étapes 1 à 7, 9 (tableau de bord et 4 sections), 10, 11 et 12 du plan (§5) sont **faites**. Voir `README.md` et `docs/*.md`.
+
+**Fait**
+- Design system (`src/app/globals.css`) et composants de marque et d'interface.
+- Site public : accueil, `/programme`, `/verifier/[id]`, 404, hors-ligne.
+- Connexion, AuthProvider démo et Firebase.
+- Campus : Aujourd'hui, cours, Study Mode, quiz, résultats, calendrier, bibliothèque, messages, profil.
+- `/enseignant` (appel).
+- `/admin` : vue générale, étudiants, cours, admissions, paramètres éditables ; autres modules décrits.
+- Firebase : règles testées sur émulateur, index, Cloud Functions, scripts `bootstrap-admin`, `init-institution`, `seed-demo`. Le bootstrap admin a été vérifié sur émulateur.
+- PWA, SEO. Tests : 31 Vitest, 15 règles, 16 E2E. Lighthouse mobile : accueil 89–90 en performance, 100 en accessibilité, bonnes pratiques et SEO.
+
+**Décisions prises pendant la session**
+- Route de vérification en français : `/verifier/[id]`.
+- Mot de passe démo : `demo2026`. Firebase Auth exige au moins 6 caractères.
+- Polices : sous-ensemble `latin` seul, sans axe `opsz`, pour la performance.
+
+**Reste à faire, par priorité**
+1. Éditeur de leçons en blocs (enseignant et admin) et gestion des quiz.
+2. Admin : notes (saisie, publication), présences, paiements (reçus), annonces (CRUD), calendrier (génération des séances).
+3. Messagerie temps réel, formulaire de candidature public (Cloud Function avec App Check).
+4. Mise en service Firebase réelle (voir `docs/FIREBASE.md`), puis bootstrap du compte `pasteurarmel` avec un mot de passe fourni par variable d'environnement.
+5. Performance : polices auto-hébergées et sous-ensemblées, allègement du JS de `/connexion`.
+6. Confirmer les trois points institutionnels : horaire du jeudi, e-mail officiel, répartition des cours par trimestre.
+
+---
+
+
 > Rédigée le 2026-09-25 à la fin de la session locale, pour reprendre le travail dans une autre session.
 > Le brief complet (70 sections) reste la référence : campus numérique premium, Next.js + Firebase.
 

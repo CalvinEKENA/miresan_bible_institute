@@ -69,9 +69,9 @@ export default function TodayPage() {
         </figure>
       </section>
 
-      <div className="mt-8 grid grid-cols-1 gap-5 lg:mt-10 lg:grid-cols-12 lg:gap-6">
+      <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-12 lg:mt-10 lg:gap-6">
         {/* Continuer mon enseignement */}
-        <section aria-labelledby="resume-title" className="relative isolate overflow-hidden rounded-md bg-forest-800 text-ivory-50 shadow-lifted lg:col-span-8">
+        <section aria-labelledby="resume-title" className="relative isolate overflow-hidden rounded-md bg-forest-800 text-ivory-50 shadow-lifted md:col-span-12 xl:col-span-8">
           <div aria-hidden className="ruled absolute inset-y-0 right-0 -z-10 w-1/2 opacity-[0.35] [mask-image:linear-gradient(to_left,black,transparent)]" style={{ backgroundImage: "repeating-linear-gradient(to bottom, transparent 0, transparent calc(1.75rem - 1px), rgb(251 248 241 / 0.08) calc(1.75rem - 1px), rgb(251 248 241 / 0.08) 1.75rem)" }} />
           <div aria-hidden className="absolute -top-24 -right-24 -z-10 size-72 rounded-full bg-[radial-gradient(circle,rgb(207_174_98/0.28),transparent_70%)]" />
           {resume && resumeCourse ? (
@@ -108,7 +108,7 @@ export default function TodayPage() {
         </section>
 
         {/* Prochaine séance */}
-        <section aria-labelledby="next-title" className="flex flex-col rounded-md bg-paper-raised p-6 shadow-paper ring-1 ring-line lg:col-span-4">
+        <section aria-labelledby="next-title" className="flex flex-col rounded-md bg-paper-raised p-6 shadow-paper ring-1 ring-line md:col-span-5 xl:col-span-4">
           <h2 id="next-title" className="eyebrow text-text-muted">
             Prochaine séance
           </h2>
@@ -138,7 +138,7 @@ export default function TodayPage() {
         </section>
 
         {/* Progression */}
-        <Panel title="Ma progression" className="lg:col-span-7" action={<Link href="/campus/resultats" className="text-sm font-semibold text-forest-700 hover:underline">Résultats</Link>}>
+        <Panel title="Ma progression" className="md:col-span-7 xl:col-span-7" action={<Link href="/campus/resultats" className="text-sm font-semibold text-forest-700 hover:underline">Résultats</Link>}>
           <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
             <ProgressRing value={overall} size={112} stroke={4} tone="gold" label={`Progression générale : ${overall} %`}>
               <span className="text-center">
@@ -174,7 +174,7 @@ export default function TodayPage() {
         </Panel>
 
         {/* Échéances */}
-        <Panel title="Examens & travaux" className="lg:col-span-5" action={<Link href="/campus/calendrier" className="text-sm font-semibold text-forest-700 hover:underline">Calendrier</Link>}>
+        <Panel title="Examens & travaux" className="md:col-span-12 xl:col-span-5" action={<Link href="/campus/calendrier" className="text-sm font-semibold text-forest-700 hover:underline">Calendrier</Link>}>
           <ul className="divide-y divide-line">
             {deadlines.map((e) => (
               <li key={e.id} className="flex items-center gap-4 py-3 first:pt-0 last:pb-0">
